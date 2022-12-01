@@ -19,11 +19,11 @@ Step 1 – Install Jenkins server
 
 `sudo apt update`
 
-![Apt Update](./image/apt-update.PNG)
+![Apt Update](./images_CI/apt-update.PNG)
 
 `sudo apt install default-jdk-headless`
 
-![Jdk Headless](./image/jdk-install-output.PNG)
+![Jdk Headless](./images_CI/jdk-install-output.PNG)
 
 - Install Jenkins:
 
@@ -33,13 +33,13 @@ sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
 sudo apt update
 sudo apt-get install jenkins`
 
-![Jenkins Install Output](./image/jenkins-install-output.PNG)
+![Jenkins Install Output](./images_CI/jenkins-install-output.PNG)
 
 - Make sure Jenkins is up and running:
 
 `sudo systemctl status jenkins`
 
-![Jenkins Status Output](./image/jenkins-status-output.PNG)
+![Jenkins Status Output](./images_CI/jenkins-status-output.PNG)
 
 - Perform initial Jenkins setup.
 
@@ -49,7 +49,7 @@ sudo apt-get install jenkins`
 
 - By default Jenkins server uses TCP port 8080 – open it by creating a new Inbound Rule in your EC2 Security Group:
 
-![Inbound Rule Update](./image/8080-inbound-rule.PNG)
+![Inbound Rule Update](./images_CI/8080-inbound-rule.PNG)
 
 - Run the command below to get the initial password:
 
@@ -61,42 +61,42 @@ Step 2 – Configure Jenkins to retrieve source codes from GitHub using Webhooks
 
 - Enable webhooks in your GitHub repository settings:
 
-![Github Webhook](./image/github-webhook-output.PNG)
+![Github Webhook](./images_CI/github-webhook-output.PNG)
 
 - Go to Jenkins web console, click "New Item" and create a "Freestyle project":
 
-![Freestyle Project](./image/project-output.PNG)
+![Freestyle Project](./images_CI/project-output.PNG)
 
 - You can open the build and check in "Console Output" if it has run successfully.
 
 If so – congratulations! You have just made your very first Jenkins build!
 
-![Jenkins Build](./image/jenkins-build1-output.PNG)
+![Jenkins Build](./images_CI/jenkins-build1-output.PNG)
 
 - In configuration of your Jenkins freestyle project choose Git repository, provide there the link to your Tooling GitHub repository and credentials (user/password) so Jenkins could access files in the repository.
 
-![Jenkins Configure](./image/jenkins-configure.PNG)
+![Jenkins Configure](./images_CI/jenkins-configure.PNG)
 
 - Save the configuration and let us try to run the build. For now we can only do it manually.
 Click "Build Now" button, if you have configured everything correctly, the build will be successfull and you will see it under #1
 
-![Build Success](./image/build-success.PNG)
+![Build Success](./images_CI/build-success.PNG)
 
 - Click "Configure" your job/project and add these two configurations
 
 - Configure triggering the job from GitHub webhook:
 
-![Hook Configure](./image/hook-build.PNG)
+![Hook Configure](./images_CI/hook-build.PNG)
 
 - Configure "Post-build Actions" to archive all the files – files resulted from a build are called "artifacts":
 
-![Post Build](./image/post-build-output.PNG)
+![Post Build](./images_CI/post-build-output.PNG)
 
 - Now, go ahead and make some change in any file in your GitHub repository (e.g. README.MD file) and push the changes to the master branch.
 
 You will see that a new build has been launched automatically (by webhook) and you can see its results – artifacts, saved on Jenkins server.
 
-![Status Output](./image/status-artifact.PNG)
+![Status Output](./images_CI/status-artifact.PNG)
 
 - By default, the artifacts are stored on Jenkins server locally:
 
@@ -112,7 +112,7 @@ You will see that a new build has been launched automatically (by webhook) and y
 
 `ls /var/lib/jenkins/jobs/`
 
-![Jobs Output](./image/jenkins-server-jobs.PNG)
+![Jobs Output](./images_CI/jenkins-server-jobs.PNG)
 
 - Change to the the jenkins folder:
 
@@ -126,43 +126,43 @@ You will see that a new build has been launched automatically (by webhook) and y
 
 `ll`
 
-![Jobs Folder](./image/jobs-folder-output.PNG)
+![Jobs Folder](./images_CI/jobs-folder-output.PNG)
 
 - Change to the Projects Folder:
 
 `cd Project99/`
 
-![Change Directory](./image/cd-project99-folder.PNG)
+![Change Directory](./images_CI/cd-project99-folder.PNG)
 
 - To display the content of the project99 folder:
 
 `ll`
 
-![Project 99](./image/project99-content.PNG)
+![Project 99](./images_CI/project99-content.PNG)
 
 - Change to the Builds folder:
 
 `cd builds/`
 
-![Change Directory](./image/cd-builds.PNG)
+![Change Directory](./images_CI/cd-builds.PNG)
 
 - To display the content of the builds folder:
 
 `ll`
 
-![Builds](./image/builds-content.PNG)
+![Builds](./images_CI/builds-content.PNG)
 
 - Change to the 3 folder:
 
 `cd 3/`
 
-![Change Directory](./image/cd-3.PNG)
+![Change Directory](./images_CI/cd-3.PNG)
 
 - To display the content of the 3 folder:
 
 `ll`
 
-![Builds](./image/3-content.PNG)
+![Builds](./images_CI/3-content.PNG)
 
 - To Change to the Archive Folder:
 
@@ -172,7 +172,7 @@ You will see that a new build has been launched automatically (by webhook) and y
 
 `ll`
 
-![Archive](./image/cd-ll-archive.PNG)
+![Archive](./images_CI/cd-ll-archive.PNG)
 
 - CONFIGURE JENKINS TO COPY FILES TO NFS SERVER VIA SSH
 
@@ -182,7 +182,7 @@ Step 3 – Configure Jenkins to copy files to NFS server via SSH
 
 Install "Publish Over SSH" plugin:
 
-![Publish Over Ssh](./image/publish-ssh-success.PNG)
+![Publish Over Ssh](./images_CI/publish-ssh-success.PNG)
 
 - Configure the job/project to copy artifacts over to NFS server.
 On main dashboard select "Manage Jenkins" and choose "Configure System" menu item.
@@ -199,7 +199,7 @@ Scroll down to Publish over SSH plugin configuration section and configure it to
  
 - Remote directory – /mnt/apps since our Web Servers use it as a mointing point to retrieve files from the NFS server:
 
-![Publish Configure](./image/publishssh-configure.PNG)
+![Publish Configure](./images_CI/publishssh-configure.PNG)
 
 - Test the configuration and make sure the connection returns Success. Remember, that TCP port 22 on NFS server must be open to receive SSH connections.
 
@@ -213,13 +213,13 @@ Scroll down to Publish over SSH plugin configuration section and configure it to
 
 - Save the configuration, open your Jenkins job/project configuration page and add another one "Post-build Action":
 
-![Post-build Action](./image/postbuild-output.PNG)
+![Post-build Action](./images_CI/postbuild-output.PNG)
 
 - Configure it to send all files probuced by the build into our previouslys define remote directory. In our case we want to copy all files and directories – so we use **.
 
 If you want to apply some particular pattern to define which files to send – use this syntax:
 
-![Source Files Configure](./image/source-files-output.PNG)
+![Source Files Configure](./images_CI/source-files-output.PNG)
 
 - Save this configuration and go ahead, change something in README.MD file in your GitHub Tooling repository.
 
@@ -229,7 +229,7 @@ If you want to apply some particular pattern to define which files to send – u
 
 ### Finished: SUCCESS
 
-![25 Success](./image/25-success-output.PNG)
+![25 Success](./images_CI/25-success-output.PNG)
 
 - In the NFS Server:
 
@@ -239,10 +239,10 @@ If you want to apply some particular pattern to define which files to send – u
 
 `ll`
 
-![Apps Content](./image/apps-content.PNG)
+![Apps Content](./images_CI/apps-content.PNG)
 
 - To make sure that the files in /mnt/apps have been udated – connect via SSH/Putty to your NFS server and check README.MD file:
 
 `cat /mnt/apps/README.md`
 
-![Cat ReadMe.md](./image/cat-readme-md-output.PNG)
+![Cat ReadMe.md](./images_CI/cat-readme-md-output.PNG)
