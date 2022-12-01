@@ -1,4 +1,4 @@
-## Documentation for Project 9: CONTINOUS INTEGRATION PIPELINE FOR TOOLING WEBSITE
+# Documentation for Project 9: CONTINOUS INTEGRATION PIPELINE FOR TOOLING WEBSITE
 
 - Enhance the architecture prepared in Project 8 by adding a Jenkins server, configure a job to automatically deploy source codes changes from Git to NFS server.
 
